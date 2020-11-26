@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30711.63
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Invoices", "Invoices\Invoices.csproj", "{AEC5CF14-2D78-475D-9610-C8B71CD67981}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invoices.Tests", "Invoices.Tests\Invoices.Tests.csproj", "{A6DC0995-5FF6-416E-B5EE-CAA9ECE8B6A9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AEC5CF14-2D78-475D-9610-C8B71CD67981}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEC5CF14-2D78-475D-9610-C8B71CD67981}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEC5CF14-2D78-475D-9610-C8B71CD67981}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEC5CF14-2D78-475D-9610-C8B71CD67981}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6DC0995-5FF6-416E-B5EE-CAA9ECE8B6A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6DC0995-5FF6-416E-B5EE-CAA9ECE8B6A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6DC0995-5FF6-416E-B5EE-CAA9ECE8B6A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6DC0995-5FF6-416E-B5EE-CAA9ECE8B6A9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {59CD0553-9AF5-4096-A8A5-3E04495E7946}
+	EndGlobalSection
+EndGlobal
