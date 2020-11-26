@@ -37,7 +37,7 @@ namespace Invoices.Tests
                 _context.Database.EnsureDeleted();
                 _context.Database.EnsureCreated();
 
-                var _loadService = new LoadService(new TrackingServicieFake(InitializeData()), _context, configuration);
+                var _loadService = new LoadService(new TrackingServicieFake(InitializeData()), _context);
                 await _loadService.LoadAsync();
                 var userAmount = _context.Users.Count();
                 var workItemsAmount = _context.WorkItems.Count();
@@ -79,7 +79,7 @@ namespace Invoices.Tests
                 });
                 _context.SaveChanges();
 
-                var _loadService = new LoadService(new TrackingServicieFake(InitializeData()), _context, configuration);
+                var _loadService = new LoadService(new TrackingServicieFake(InitializeData()), _context);
                 await _loadService.LoadAsync();
 
                 var userAmount = _context.Users.Count();

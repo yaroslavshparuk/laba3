@@ -51,12 +51,18 @@ namespace Invoices.Services
                         workItem.LastUpdateTime = itemRecord.LastUpdateTime;
                     }
 
+
                     history.Select(hi => new HistoryDetail
                     {
                         WorkItem = workItem,
+                        WorkItemId = workItem.Id,
+                        RevisionById = GetOrCreateUser(hi.RevisionBy) is not null ? GetOrCreateUser(hi.RevisionBy).Id:null,
                         RevisionBy = GetOrCreateUser(hi.RevisionBy),
                         AssignedUser = GetOrCreateUser(hi.AssignedUser),
+                        AssignedUserId = GetOrCreateUser(hi.AssignedUser) is not null ? GetOrCreateUser(hi.AssignedUser).Id:null,
                         RevisionDateTime = hi.RevisionDateTime,
+                        AssignedToNewValueId = GetOrCreateUser(hi.AssignedToNewValue) is not null ? GetOrCreateUser(hi.AssignedToNewValue).Id : null,
+                        AssignedToOldValueId = GetOrCreateUser(hi.AssignedToOldValue) is not null ? GetOrCreateUser(hi.AssignedToOldValue).Id : null,
                         AssignedToNewValue = GetOrCreateUser(hi.AssignedToNewValue),
                         AssignedToOldValue = GetOrCreateUser(hi.AssignedToOldValue),
                         RemainingWorkNewValue = hi.RemainingWorkNewValue,

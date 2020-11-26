@@ -21,12 +21,22 @@ namespace Invoices.Tests
             _records = records;
         }
 
+        public Task<WorkItemRecord> GetWorkItemAsync(string workItemId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async IAsyncEnumerable<WorkItemRecord> GetWorkItemsAsync(string QueryId)
         {
             await foreach (var item in _records)
             {
                 yield return item;
             }
+        }
+        
+        public IAsyncEnumerable<WorkItemRecord> GetWorkItemsAsync(DateTime? updatedAfter = null, DateTime? createdBefore = null, IEnumerable<string> workItemTypes = null)
+        {
+            throw new NotImplementedException();
         }
     }
 }

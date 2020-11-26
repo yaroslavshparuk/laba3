@@ -12,6 +12,7 @@ using System;
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi;
 using Invoices.TrackingPlugin;
 using Invoices.Services;
+using Invoices.Interfaces;
 
 namespace Invoices
 {
@@ -26,9 +27,6 @@ namespace Invoices
 
         public void ConfigureServices(IServiceCollection services)
         {
-           
-
-
             services.AddControllers();
             services.AddDbContext<InvoiceContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("InvoiceContext")));
@@ -37,14 +35,13 @@ namespace Invoices
                 var connection = new VssConnection(
                 new Uri(Configuration.GetSection("WebConfig").GetSection("orgUrl").Value),
                 new VssBasicCredential(string.Empty, Configuration.GetSection("WebConfig").GetSection("personalAccessToken").Value));
-
-                return new DevOpsTrackingService(connection.GetClient<WorkItemTrackingHttpClient>(), Configuration);
+                return new DevOpsTrackingService(connection.GetClient<WorkItemTrackingHttpClient>());
             });
 
             services.AddTransient(x =>new LoadService
             (x.GetRequiredService<ITrackingService>(),
              x.GetRequiredService<InvoiceContext>()));
-
+            services.AddTransient<IInvoiceBuilder, GridInvoiceBuilder>();
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";

@@ -12,17 +12,16 @@ namespace Invoices.TrackingPlugin
     public class DevOpsTrackingService : ITrackingService
     {
         private readonly WorkItemTrackingHttpClient _client;
-        private readonly IConfiguration _configuration;
 
-        public DevOpsTrackingService(WorkItemTrackingHttpClient client, IConfiguration configuration)
+        public DevOpsTrackingService(WorkItemTrackingHttpClient client)
         {
             _client = client;
-            _configuration = configuration;
         }
 
         public async IAsyncEnumerable<WorkItemRecord> GetWorkItemsAsync(DateTime? updatedAfter = null, DateTime? createdBefore = null, IEnumerable<string> workItemTypes = null)  // updatedAfter?, createdBefore?, IEnum
         {
-            var query = " select [System.Id]" +
+            var query = 
+                " select [System.Id]" +
                 " from workitems" +
                 " where " +
                 " [System.WorkItemType] in ('Product Backlog Item', 'Bug', 'Task') and " +
@@ -65,6 +64,9 @@ namespace Invoices.TrackingPlugin
 
             var history = await _client.GetUpdatesAsync(wiId);
             UserRecord currentAssignedUser = null;
+            UserRecord assignedToNewValue = null;
+            UserRecord assignedToOldValue = null;
+
             foreach (var hi in history.Where(h => h.Fields is not null))
             {
                 hi.Fields.TryGetValue("Microsoft.VSTS.Scheduling.RemainingWork", out var remainWork);
@@ -72,25 +74,25 @@ namespace Invoices.TrackingPlugin
 
                 if (remainWork is not null)
                 {
-                    IdentityRef newOwner = null;
-                    IdentityRef oldOwner = null;
                     if (assignTo is not null)
                     {
-                        newOwner = assignTo.NewValue as IdentityRef;
-                        oldOwner = assignTo.OldValue as IdentityRef;
+                        var newOwner = assignTo.NewValue as IdentityRef;
+                        var oldOwner = assignTo.OldValue as IdentityRef;
+
+                        assignedToNewValue = newOwner is not null ? new UserRecord(newOwner.Id, newOwner.DisplayName):null;
+                        assignedToOldValue = oldOwner is not null ? new UserRecord(oldOwner.Id, oldOwner.DisplayName):null;
                     }
 
                     var historyDetail = new HistoryDetailRecord(
                         WorkItemId: wiId,
                         RevisionDateTime: (DateTime)hi.Fields["System.ChangedDate"].NewValue,
                         RevisionBy: new UserRecord(hi.RevisedBy.Id.ToString(), hi.RevisedBy.DisplayName),
-                        AssignedUser: currentAssignedUser,
+                        AssignedUser: assignedToNewValue is not null ? assignedToNewValue : currentAssignedUser is not null ? currentAssignedUser : assignedToOldValue,
                         RemainingWorkOldValue: Convert.ToInt32(remainWork.OldValue),
                         RemainingWorkNewValue: Convert.ToInt32(remainWork.NewValue),
-                        AssignedToNewValue: newOwner is not null ? new UserRecord(newOwner.Id, newOwner.DisplayName) : null,
-                        AssignedToOldValue: oldOwner is not null ? new UserRecord(oldOwner.Id, oldOwner.DisplayName) : null
+                        AssignedToNewValue: assignedToNewValue is not null ? assignedToNewValue : null,
+                        AssignedToOldValue: assignedToOldValue is not null ? assignedToOldValue : null
                     );
-                    // find field with system.closedDate
                     currentAssignedUser = historyDetail.AssignedToNewValue is not null ? historyDetail.AssignedToNewValue : null;
                     historyDetails.Add(historyDetail);
                 }

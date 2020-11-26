@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoadDataComponent } from './load-data/load-data.component';
+import { BuildInvoiceComponent } from './build-invoice/build-invoice.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { LoadDataComponent } from './load-data/load-data.component';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    LoadDataComponent
+    LoadDataComponent,
+    BuildInvoiceComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -29,6 +31,7 @@ import { LoadDataComponent } from './load-data/load-data.component';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'load-data', component: LoadDataComponent },
+      { path: 'build-invoice', component: BuildInvoiceComponent }
     ])
   ],
   providers: [],
