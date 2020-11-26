@@ -28,7 +28,7 @@ namespace Invoices.Services
             {
                 var workItemsRecords = _trackingService.GetWorkItemsAsync();
 
-                await foreach (var itemRecord in workItemsRecords)
+               await foreach (var itemRecord in workItemsRecords)
                 {
                     int? parentid = null;
                     if (itemRecord.ParentId != null)
@@ -64,7 +64,6 @@ namespace Invoices.Services
                     }).ForEach(workItem.History.Add);
                     var awaitIt = await _context.SaveChangesAsync();
                 }
-               // var awaitIt = await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {

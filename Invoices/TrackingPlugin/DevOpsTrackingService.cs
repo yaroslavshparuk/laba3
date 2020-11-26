@@ -1,9 +1,6 @@
-﻿using Invoices.EF;
-using Invoices.Models;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi;
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models;
-using Microsoft.VisualStudio.Services.Common;
 using Microsoft.VisualStudio.Services.WebApi;
 using System;
 using System.Collections.Generic;
@@ -25,19 +22,16 @@ namespace Invoices.TrackingPlugin
 
         public async IAsyncEnumerable<WorkItemRecord> GetWorkItemsAsync(DateTime? updatedAfter = null, DateTime? createdBefore = null, IEnumerable<string> workItemTypes = null)  // updatedAfter?, createdBefore?, IEnum
         {
-
-            //escape all types
-            var Wiql = new Wiql
-            {
-                Query =
-                " select [System.Id], [System.WorkItemType], [System.Title], [System.AssignedTo], [System.State], [System.Tags]" +
+            var query = " select [System.Id]" +
                 " from workitems" +
                 " where " +
-                " ([System.WorkItemType] = 'Bug' or" +
-                " [System.WorkItemType] = 'Task'  or" +
-                " [System.WorkItemType] = 'Product Backlog Item') and" +
-                " ([System.CreatedDate] < @StartOfMonth and " +
-                " [System.ChangedDate] >= @StartOfMonth-1)" // to finish with input values
+                " [System.WorkItemType] in ('Product Backlog Item', 'Bug', 'Task') and " +
+                " [System.CreatedDate] < @StartOfMonth and " +
+                " [System.ChangedDate] >= @StartOfMonth-1"; // to finish with input values
+
+            var Wiql = new Wiql
+            {
+                Query = query
             };
 
             var queryResult = await _client.QueryByWiqlAsync(Wiql);
@@ -56,21 +50,18 @@ namespace Invoices.TrackingPlugin
 
         private async Task<WorkItemRecord> GetWorkItemAsync(int wiId)
         {
-            if (wiId == 63004)
-            {
-                var a = 1;
-            }
             int? parentId = null;
             List<HistoryDetailRecord> historyDetails = new();
             var workClientItem = await _client.GetWorkItemAsync(wiId, expand: WorkItemExpand.All);
 
-            foreach (var item in workClientItem.Relations)
-            {
-                if (item.Rel == "System.LinkTypes.Hierarchy-Reverse")
+            if (workClientItem.Relations is not null)
+                foreach (var item in workClientItem.Relations)
                 {
-                    parentId = Convert.ToInt32(workClientItem.Relations.FirstOrDefault().Url.Split('/').Last());
+                    if (item.Rel == "System.LinkTypes.Hierarchy-Reverse")
+                    {
+                        parentId = Convert.ToInt32(workClientItem.Relations.FirstOrDefault().Url.Split('/').Last());
+                    }
                 }
-            }
 
             var history = await _client.GetUpdatesAsync(wiId);
             UserRecord currentAssignedUser = null;
