@@ -1,13 +1,3 @@
-<table mdbTable>
-    <thead>
-      <tr>
-        <th> Dude  </th>
-        <th *ngFor="let head of headElements">  {{head}} </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr mdbTableCol *ngFor="let el of elements">
-        <th>Dude123</th>
-      </tr>
-    </tbody>
-  </table>
+<div class="grid-container">
+  <div *ngFor = "let day of dayz">{{day}}</div>
+</div>

@@ -4,7 +4,8 @@ import { UserWork } from '../models/UserWork';
 import { HttpService } from '../services/HttpService';
 
 @Component({
-  selector: 'app-build-invoice'
+  selector: 'app-build-invoice',
+  template: 'build-invoice.component.html'
 })
 export class BuildInvoiceComponent implements OnInit {
   users;
