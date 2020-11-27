@@ -1,15 +1,24 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { User } from '../models/user';
+import { UserWork } from '../models/UserWork';
+import { HttpService } from '../services/HttpService';
 
 @Component({
-  selector: 'app-build-invoice',
-  templateUrl: './build-invoice.component.html',
-  styleUrls: ['./build-invoice.component.css']
+  selector: 'app-build-invoice'
 })
-export class BuildInvoiceComponent {
+export class BuildInvoiceComponent implements OnInit {
+  users;
+  httpService: HttpService;
+  constructor(httpService: HttpService) { this.httpService = httpService }
 
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get(baseUrl + 'build').subscribe(error => console.error(error));
+  ngOnInit() {
+    this.loadUsers()
   }
 
+  loadUsers() {
+    this.httpService.getUserWorks()
+      .subscribe(((data) => this.users = data));
+  }
 }
+
+

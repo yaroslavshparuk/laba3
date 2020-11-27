@@ -5,14 +5,19 @@ import { Component } from '@angular/core';
   templateUrl: './nav-menu.component.html',
   styleUrls: ['./nav-menu.component.css']
 })
-export class NavMenuComponent {
-  isExpanded = false;
-
-  collapse() {
-    this.isExpanded = false;
-  }
-
-  toggle() {
-    this.isExpanded = !this.isExpanded;
-  }
+ export class NavMenuComponent {
+  years = getYears();
+  monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+}
+function getYears()
+{
+  var fullYear = new Date().getFullYear();
+  var years = [];
+ while(fullYear != 2010){
+   years.push(fullYear);
+   fullYear = fullYear - 1;
+ }
+ return years;
 }

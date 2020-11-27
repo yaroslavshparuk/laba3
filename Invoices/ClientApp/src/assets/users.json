@@ -1,0 +1,44 @@
+[
+    {
+      "Id": 1002,
+      "ExternalId": "eae3ccba-59d2-422e-86c1-36dd48620799",
+      "Name": "Tatyana Ryskina",
+      "Email": null
+    },
+    {
+      "Id": 1003,
+      "ExternalId": "864d7d38-b946-488e-95e2-bd8006d60b97",
+      "Name": "Denis Sheshko",
+      "Email": null
+    },
+    {
+      "Id": 1004,
+      "ExternalId": "9f0ddc46-a692-439b-bb27-354be0b0e8d0",
+      "Name": "Sergey Mikhalets",
+      "Email": null
+    },
+    {
+      "Id": 1005,
+      "ExternalId": "252faf4e-5b9b-4596-9dc1-9da9142718de",
+      "Name": "Anatoliy Krysan",
+      "Email": null
+    },
+    {
+      "Id": 1006,
+      "ExternalId": "f6980986-66fe-471a-bc3f-72a75e3a11e3",
+      "Name": "Stas Fedorov",
+      "Email": null
+    },
+    {
+      "Id": 1007,
+      "ExternalId": "b417dc98-1590-47f7-85af-535172d05d20",
+      "Name": "Maksym Shlykov",
+      "Email": null
+    },
+    {
+      "Id": 1008,
+      "ExternalId": "d01ac13a-3150-4fba-a370-0ded2d031400",
+      "Name": "Nazar Stasyuk",
+      "Email": null
+    }
+  ]

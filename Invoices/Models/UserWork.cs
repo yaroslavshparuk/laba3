@@ -12,8 +12,7 @@ namespace Invoices.Models
         public virtual int Id { get; set; } // make ids for all nav props
         public virtual int UserId { get; set; }
         public virtual int WorkItemId { get; set; }
-        public virtual int Day { get; set; }
-        public virtual int Month { get; set; }
+        public DateTime Date { get; set; }
 
         public virtual User User { get; set; } 
         public virtual WorkItem WorkItem { get; set; }

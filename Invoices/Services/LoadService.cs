@@ -88,7 +88,7 @@ namespace Invoices.Services
 
             WorkItem GetOrCreateWorkItem(WorkItemRecord workItemRecord)
             {
-                return _context.WorkItems.Include(x => x.History)
+                return _context.WorkItems
                     .FirstOrDefault(x => x.ExternalId == workItemRecord.Id) ?? _context.WorkItems.Add(new WorkItem
                     {
                         ExternalId = workItemRecord.Id,

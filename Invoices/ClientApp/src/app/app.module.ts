@@ -7,18 +7,15 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoadDataComponent } from './load-data/load-data.component';
 import { BuildInvoiceComponent } from './build-invoice/build-invoice.component';
+import { HttpService } from './services/HttpService';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     LoadDataComponent,
     BuildInvoiceComponent
   ],
@@ -28,13 +25,11 @@ import { BuildInvoiceComponent } from './build-invoice/build-invoice.component';
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
       { path: 'load-data', component: LoadDataComponent },
       { path: 'build-invoice', component: BuildInvoiceComponent }
     ])
   ],
-  providers: [],
+  providers: [HttpService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

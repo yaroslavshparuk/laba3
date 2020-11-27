@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore.Proxies;
 using Microsoft.EntityFrameworkCore;
 using Invoices.EF;
 using Microsoft.VisualStudio.Services.WebApi;
@@ -28,8 +29,8 @@ namespace Invoices
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddDbContext<InvoiceContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("InvoiceContext")));
+            services.AddDbContext<InvoiceContext>(options => options.UseLazyLoadingProxies()
+            .UseSqlServer(Configuration.GetConnectionString("InvoiceContext")));
             services.AddTransient<ITrackingService>(x =>
             {
                 var connection = new VssConnection(
@@ -37,7 +38,6 @@ namespace Invoices
                 new VssBasicCredential(string.Empty, Configuration.GetSection("WebConfig").GetSection("personalAccessToken").Value));
                 return new DevOpsTrackingService(connection.GetClient<WorkItemTrackingHttpClient>());
             });
-
             services.AddTransient(x =>new LoadService
             (x.GetRequiredService<ITrackingService>(),
              x.GetRequiredService<InvoiceContext>()));
@@ -46,6 +46,7 @@ namespace Invoices
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

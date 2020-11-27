@@ -31,7 +31,7 @@ namespace Invoices.Services
 
                 foreach (var item in userWork.ToList())
                 {
-                    var wi = _context.WorkItems.Include(i => i.History).FirstOrDefault(x => x.Id == item.WorkItemId && x.Type == "Task");
+                    var wi = _context.WorkItems.FirstOrDefault(x => x.Id == item.WorkItemId && x.Type == "Task");
                     if (wi is not null)
                     {
                         foreach (var hi in wi.History)
@@ -53,26 +53,19 @@ namespace Invoices.Services
             {
                 throw new Exception(ex.Message);
             }
-            finally
-            {
-                _context.Dispose();
-            }
         }
         private UserWork CreateUserWork(HistoryDetail detail)
         {
-            if (!_context.UserWorks.Any
-                (x => x.Day == detail.RevisionDateTime.Day &&
-                 x.UserId == detail.RevisionById &&
-                 x.WorkItemId == detail.WorkItemId
-                 ))
+            if (!_context.UserWorks.Any(x=>
+                x.UserId == detail.RevisionById &&
+                x.WorkItemId == detail.WorkItemId))
             {
                 return new UserWork
                 {
                     WorkItemId = detail.WorkItemId,
                     UserId = (int)detail.RevisionById,
                     Duration = 8,
-                    Day = detail.RevisionDateTime.Day,
-                    Month = detail.RevisionDateTime.Month
+                    Date = detail.RevisionDateTime
                 };
             }
             else
