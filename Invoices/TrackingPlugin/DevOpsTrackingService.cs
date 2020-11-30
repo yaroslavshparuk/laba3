@@ -38,7 +38,7 @@ namespace Invoices.TrackingPlugin
             foreach (var item in first100WorkItemsTest)
             {
                 yield return await GetWorkItemAsync(item.Id);
-            }
+            }  
         }
 
         public async Task<WorkItemRecord> GetWorkItemAsync(string itemId)

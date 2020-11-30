@@ -23,7 +23,9 @@ bin/
 Bin/
 obj/
 Obj/
-
+../Invoices.Tests/bin/
+../Invoices.Tests/obj/
+../debug.log
 # Visual Studio 2015 cache/options directory
 .vs/
 

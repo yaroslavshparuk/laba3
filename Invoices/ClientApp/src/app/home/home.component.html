@@ -1,3 +1,11 @@
 <div class="grid-container">
-  <div *ngFor = "let day of dayz">{{day}}</div>
+  <div class="names">
+    Names
+  </div>
+  <div *ngFor="let day of dayz">{{day}}</div>
+</div>
+
+<div class="grid-container" *ngFor="let row of rows">
+  <div class="names">{{row.UserName}}</div>
+  <div *ngFor="let wi of row.WorkItems" [style.grid-column-start] = "wi.StartDay + 1 " [style.grid-column-end]="wi.StartDay+ wi.Duration+1">Task Id: {{wi.Id}}</div>
 </div>
