@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DataService } from '../services/data.service';
-import { HttpService } from '../services/http.service';
 
 @Component({
   selector: 'app-home',
@@ -22,16 +21,4 @@ function getDaysInMonth(month, year) {
     date.setDate(date.getDate() + 1);
   }
   return days;
-}
-
-interface Row{
-  UserName:string;
-  WorkItems:WorkItem[];
-}
-
-interface WorkItem {
-  Id: number;
-  StartDay: number;
-  Duration: number;
-  Name:string;
 }

@@ -87,13 +87,10 @@ namespace Invoices.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int>("Day")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Duration")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Month")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -148,6 +145,22 @@ namespace Invoices.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("WorkItems");
+                });
+
+            modelBuilder.Entity("Invoices.Models.WorkItemType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("TypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WorkItemTypes");
                 });
 
             modelBuilder.Entity("Invoices.Models.HistoryDetail", b =>

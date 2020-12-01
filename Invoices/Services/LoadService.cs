@@ -52,7 +52,6 @@ namespace Invoices.Services
                         workItem.LastUpdateTime = itemRecord.LastUpdateTime;
                     }
 
-
                     history.Select(hi => new HistoryDetail
                     {
                         WorkItem = workItem,

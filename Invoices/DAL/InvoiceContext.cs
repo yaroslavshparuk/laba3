@@ -1,12 +1,6 @@
-﻿using Invoices;
-using Invoices.DAL.EntityConfigurations;
+﻿using Invoices.DAL.EntityConfigurations;
 using Invoices.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Invoices.EF
 {
@@ -26,6 +20,7 @@ namespace Invoices.EF
         public virtual DbSet<HistoryDetail> HistoryDetails { get; set; }
         public virtual DbSet<WorkItem> WorkItems { get; set; }
         public virtual DbSet<UserWork> UserWorks { get; set; }
+        public virtual DbSet<WorkItemType> WorkItemTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -33,6 +28,7 @@ namespace Invoices.EF
             modelBuilder.ApplyConfiguration(new WorkItemConfiguration());
             modelBuilder.ApplyConfiguration(new UserWorkConfiguration());
             modelBuilder.ApplyConfiguration(new HistoryDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new WorkItemTypeConfiguration());
             base.OnModelCreating(modelBuilder);
         }
     }

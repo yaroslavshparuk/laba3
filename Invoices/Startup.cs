@@ -43,7 +43,7 @@ namespace Invoices
             services.AddTransient(x =>new LoadService
             (x.GetRequiredService<ITrackingService>(),
              x.GetRequiredService<InvoiceContext>()));
-            services.AddTransient<IInvoiceBuilder, GridInvoiceBuilder>();
+            services.AddTransient<IUserWorkService, UserWorkService>();
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
