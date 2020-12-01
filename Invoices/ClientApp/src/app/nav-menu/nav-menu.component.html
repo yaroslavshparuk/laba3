@@ -11,11 +11,10 @@
       </select>
     </li>
     <li [routerLinkActive]="['link-active']">
-      <a class="nav-link text-dark" [routerLink]="['/load-data']">Load data</a>
+      <a class="nav-link text-dark" (click)="buildDataHandler()">Build invoice</a>
     </li>
     <li [routerLinkActive]="['link-active']">
-      <a class="nav-link text-dark" [routerLink]="['/build-invoice']">Build
-        invoice</a>
+      <a class="nav-link text-dark" (click)="loadDataHandler()">Load data</a>
     </li>
   </ul>
 </header>

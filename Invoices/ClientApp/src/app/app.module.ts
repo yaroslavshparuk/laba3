@@ -3,33 +3,27 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { LoadDataComponent } from './load-data/load-data.component';
-import { BuildInvoiceComponent } from './build-invoice/build-invoice.component';
-import { HttpService } from './services/HttpService';
+import { HttpService } from './services/http.service';
+import { DataService } from './services/data.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
-    HomeComponent,
-    LoadDataComponent,
-    BuildInvoiceComponent
+    HomeComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'load-data', component: LoadDataComponent },
-      { path: 'build-invoice', component: BuildInvoiceComponent }
+      { path: '', component: HomeComponent, pathMatch: 'full' }
     ])
   ],
-  providers: [HttpService],
+  providers: [HttpService, DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

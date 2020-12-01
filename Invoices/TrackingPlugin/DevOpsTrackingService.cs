@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Invoices.Records;
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi;
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models;
 using Microsoft.VisualStudio.Services.WebApi;
@@ -34,8 +34,7 @@ namespace Invoices.TrackingPlugin
             };
 
             var queryResult = await _client.QueryByWiqlAsync(Wiql);
-            var first100WorkItemsTest = queryResult.WorkItems.Take(100);
-            foreach (var item in first100WorkItemsTest)
+            foreach (var item in queryResult.WorkItems)
             {
                 yield return await GetWorkItemAsync(item.Id);
             }  

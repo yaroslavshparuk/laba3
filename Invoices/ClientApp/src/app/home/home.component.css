@@ -18,3 +18,6 @@
   font-size: 20px;
   width: 110px;
 }
+.empty-div{
+  background-color: rgba(255, 255, 255, 0.8);
+}

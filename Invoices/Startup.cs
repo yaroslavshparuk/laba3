@@ -14,6 +14,8 @@ using Microsoft.TeamFoundation.WorkItemTracking.WebApi;
 using Invoices.TrackingPlugin;
 using Invoices.Services;
 using Invoices.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Invoices
 {
@@ -46,7 +48,8 @@ namespace Invoices
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-            services.AddMvc();
+            services.AddMvc(option => option.EnableEndpointRouting = false)
+                 .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,5 +1,6 @@
 ﻿using Invoices.EF;
 using Invoices.Models;
+using Invoices.Records;
 using Invoices.TrackingPlugin;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

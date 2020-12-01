@@ -1,29 +1,17 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { DataService } from '../services/data.service';
+import { HttpService } from '../services/http.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent {
+  constructor(private dataService: DataService) {}
   dayz = getDaysInMonth(11, 2020);
-  rows: Row[] =[ {
-    UserName: "yaroslav",
-    WorkItems: [
-      { Id:1, StartDay:1,Duration: 14,Name:"task1" },
-      { Id:2, StartDay:11,Duration: 5,Name:"task2" },
-      { Id:3, StartDay:15,Duration: 7,Name:"task3" }
-    ]
-  },
-  {
-    UserName: "vasya",
-    WorkItems: [
-      { Id:4, StartDay:1,Duration: 8,Name:"task4" },
-      { Id:5, StartDay:9,Duration: 11,Name:"task5" },
-      { Id:6, StartDay:22,Duration: 8,Name:"task6" }
-    ]
-  }
-];
+  userWorks$ = this.dataService.getBuiltUserWorks();
 }
 
 function getDaysInMonth(month, year) {

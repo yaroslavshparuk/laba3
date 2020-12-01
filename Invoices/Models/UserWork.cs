@@ -13,7 +13,6 @@ namespace Invoices.Models
         public virtual int UserId { get; set; }
         public virtual int WorkItemId { get; set; }
         public DateTime Date { get; set; }
-
         public virtual User User { get; set; } 
         public virtual WorkItem WorkItem { get; set; }
         public virtual int Duration { get; set; }

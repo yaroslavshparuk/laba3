@@ -1,9 +1,10 @@
 import { User } from "./user";
 
-export class HistoryDetail{
-    workItemNum:number;
-    newRemainHours: number;
-    oldRemainHours:number;
-    revisionBy: User;
-    revisionTime: Date;
+export class HistoryDetail {
+    constructor(
+        public workItemNum?:number,
+        public newRemainHours?: number,
+        public oldRemainHours?:number,
+        public revisionBy?: User,
+        public revisionTime?: Date) { }
 }

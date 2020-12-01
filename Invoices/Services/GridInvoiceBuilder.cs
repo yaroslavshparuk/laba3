@@ -20,7 +20,7 @@ namespace Invoices.Services
         {
             try
             {
-                var userWork = from hi in _context.HistoryDetails where hi.RevisionDateTime > DateTime.Now.AddMonths(-1)
+                var userWork = from hi in _context.HistoryDetails 
                                group hi by new
                                {
                                    hi.RevisionById,
@@ -45,7 +45,6 @@ namespace Invoices.Services
                         }
                         await _context.SaveChangesAsync();
                     }
-
                 }
             }
 
