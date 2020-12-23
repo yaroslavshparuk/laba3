@@ -9,16 +9,16 @@ export class DataService {
     dataSubject$ = new BehaviorSubject(null)
   constructor(private httpService: HttpService) {}
 
-   getBuiltUserWorks() {
+   getCreatedReport() {
     return this.dataSubject$.asObservable();
 }
 
-loadData(){
-    this.httpService.loadWorkItems().subscribe(error => console.error(error));
+loadData(selectedYear:number, selectedMonth: string){
+    this.httpService.loadWorkItems(selectedYear, selectedMonth).subscribe(error => console.error(error));
 }
 
-buildUserWorks() {
-    this.httpService.buildUserWorks().subscribe(data => {
+createReports(selectedYear:number, selectedMonth: string) {
+    this.httpService.createReports(selectedYear, selectedMonth).subscribe(data => {
         this.dataSubject$.next(data)
     })
 }

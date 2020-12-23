@@ -3,7 +3,7 @@
   display: grid;
   margin-left: 0px;
   grid-template-columns: repeat(32, 2fr);
-  background-color: #2196F3;
+  background-color: #ffffff;
 }
 
 .grid-container > div {
@@ -20,4 +20,13 @@
 }
 .empty-div{
   background-color: rgba(255, 255, 255, 0.8);
+}
+a{
+  background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden; 
+    display:block;
+    float:left;
 }

@@ -4,18 +4,18 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore.Proxies;
 using Microsoft.EntityFrameworkCore;
 using Invoices.EF;
 using Microsoft.VisualStudio.Services.WebApi;
 using Microsoft.VisualStudio.Services.Common;
 using System;
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi;
-using Invoices.TrackingPlugin;
 using Invoices.Services;
 using Invoices.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Invoices.TrackingPlugin;
+using Invoices.Data.Repositories;
+using Invoices.DAL.Repositories;
 
 namespace Invoices
 {
@@ -31,18 +31,24 @@ namespace Invoices
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddDbContext<InvoiceContext>(options => options.UseLazyLoadingProxies()
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IUserWorkRepository, UserWorkRepository>();
+            services.AddTransient<IWorkItemRepository, WorkItemRepository>();
+            services.AddDbContext<InvoiceContext>(options => options
             .UseSqlServer(Configuration.GetConnectionString("InvoiceContext")));
-            services.AddTransient<ITrackingService>(x =>
+
+            services.AddTransient<ITrackingSourceRepository>(x =>
             {
                 var connection = new VssConnection(
                 new Uri(Configuration.GetSection("WebConfig").GetSection("orgUrl").Value),
                 new VssBasicCredential(string.Empty, Configuration.GetSection("WebConfig").GetSection("personalAccessToken").Value));
-                return new DevOpsTrackingService(connection.GetClient<WorkItemTrackingHttpClient>());
+                return new AzureTrackingSourceRepository(connection.GetClient<WorkItemTrackingHttpClient>());
             });
+
             services.AddTransient(x =>new LoadService
-            (x.GetRequiredService<ITrackingService>(),
-             x.GetRequiredService<InvoiceContext>()));
+            (x.GetRequiredService<ITrackingSourceRepository>(),
+             x.GetRequiredService<IUserRepository>(),
+             x.GetRequiredService<IWorkItemRepository>()));
             services.AddTransient<IUserWorkService, UserWorkService>();
             services.AddSpaStaticFiles(configuration =>
             {
@@ -52,7 +58,6 @@ namespace Invoices
                  .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -62,7 +67,6 @@ namespace Invoices
             else
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 

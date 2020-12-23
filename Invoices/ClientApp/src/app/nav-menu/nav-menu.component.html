@@ -1,17 +1,17 @@
 <header>
   <ul>
     <li>
-      <select>
-        <option *ngFor="let year of years">{{year}}</option>
+      <select (change)="setSelectedYear($event.target.value)">
+        <option value="{{year}}" *ngFor="let year of years">{{year}}</option>
       </select>
     </li>
     <li>
-      <select>
-        <option *ngFor="let month of monthNames">{{month}}</option>
+      <select (change)="setSelectedMonth($event.target.value)">
+        <option (click)="setSelectedMonth(month)" value="{{month}}" *ngFor="let month of monthNames">{{month}}</option>
       </select>
     </li>
     <li [routerLinkActive]="['link-active']">
-      <a class="nav-link text-dark" (click)="buildDataHandler()">Build invoice</a>
+      <a class="nav-link text-dark" (click)="createReportsHandler()">Create report</a>
     </li>
     <li [routerLinkActive]="['link-active']">
       <a class="nav-link text-dark" (click)="loadDataHandler()">Load data</a>

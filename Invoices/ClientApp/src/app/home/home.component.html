@@ -1,4 +1,4 @@
-<div class="grid-container">
+<div class="grid-container" style="position: sticky; top: 0;">
   <div class="names">
     Names
   </div>
@@ -7,8 +7,8 @@
 <div class="empty-div" *ngIf="(userWorks$ | async) as userWorks">
   <div class="grid-container" *ngFor="let row of userWorks">
     <div class="names">{{row?.userName}}</div>
-    <div title="{{wi?.name}}" *ngFor="let wi of row.workItems"[style.grid-column-start]="wi.dayFrom+1" [style.grid-column-end]="wi.dayFrom + wi.duration + 1" >
-      {{wi?.id}}
+    <div  title="{{wi?.name}}" *ngFor="let wi of row.workItems"[style.grid-column-start]="wi.dayFrom+1" [style.grid-column-end]="wi.dayFrom + wi.duration + 1" >
+        <a (click)="openDialog(wi.id, wi.name)"> {{wi.id}} </a>
     </div>
   </div>
 </div>

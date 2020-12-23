@@ -9,21 +9,28 @@ import { HttpService } from '../services/http.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
  export class NavMenuComponent {
-   selectedYear;
-   selectedMonth;
-  years = getYears();
-  monthNames = ["January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
-];
+   years = getYears();
+   monthNames = ["January", "February", "March", "April", "May", "June",
+   "July", "August", "September", "October", "November", "December"
+  ];
+  selectedYear = this.years[0]
+  selectedMonth = this.monthNames[0]
 
 constructor(private dataService: DataService) {}
 
 loadDataHandler() {
-  this.dataService.loadData()
+  this.dataService.loadData(this.selectedYear,this.selectedMonth)
 }
 
-buildDataHandler() {
-  this.dataService.buildUserWorks()
+createReportsHandler() {
+  this.dataService.createReports(this.selectedYear,this.selectedMonth)
+}
+
+setSelectedYear(year:number) : void {
+  this.selectedYear = year;
+}
+setSelectedMonth(month:string) : void {
+  this.selectedMonth = month;
 }
 
 }
@@ -37,3 +44,4 @@ function getYears()
  }
  return years;
 }
+

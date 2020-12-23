@@ -1,19 +1,12 @@
-﻿using Invoices.EF;
-using Invoices.Models;
-using Invoices.Records;
-using Invoices.Services;
+﻿using Invoices.Data.Records;
 using Invoices.TrackingPlugin;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
-using Xunit;
 
 namespace Invoices.Tests
 {
-    public class TrackingServicieFake : ITrackingService
+    public class TrackingServicieFake : ITrackingSourceRepository
     {
         private readonly IAsyncEnumerable<WorkItemRecord> _records;
 

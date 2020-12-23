@@ -1,9 +1,8 @@
-﻿using Invoices.EF;
-using Invoices.Models;
-using Invoices.Records;
+﻿using Invoices.Data.Entities.TicketAggregate;
+using Invoices.Data.Repositories;
+using Invoices.EF;
+using Invoices.Interfaces;
 using Invoices.TrackingPlugin;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.Services.Common;
 using System;
 using System.Collections.Generic;
@@ -12,94 +11,51 @@ using System.Threading.Tasks;
 
 namespace Invoices.Services
 {
-    public class LoadService
+    public class LoadService : ILoadService
     {
-        private readonly ITrackingService _trackingService;
-        private readonly InvoiceContext _context;
+        private readonly ITrackingSourceRepository _trackingService;
+        private readonly IUserRepository _userRepository;
+        private readonly IWorkItemRepository _workItemRepository;
 
-        public LoadService(ITrackingService trackingService, InvoiceContext context)
+        public LoadService(ITrackingSourceRepository trackingService, IUserRepository userRepository, IWorkItemRepository workItemRepository)
         {
             _trackingService = trackingService;
-            _context = context;
+            _userRepository = userRepository;
+            _workItemRepository = workItemRepository;
         }
 
-        public async Task LoadAsync()
+
+        public async Task LoadAsync(DateTime date)
         {
             try
             {
-                var workItemsRecords = _trackingService.GetWorkItemsAsync();
+                var workItemsRecords = _trackingService.GetWorkItemsAsync(date);
 
-               await foreach (var itemRecord in workItemsRecords)
+                await foreach (var itemRecord in workItemsRecords)
                 {
-                    int? parentid = null;
-                    if (itemRecord.ParentId != null)
-                    {
-                       var parent = GetOrCreateWorkItem(await _trackingService.GetWorkItemAsync(itemRecord.ParentId.ToString()));
-                        if (parent.Id == 0)
-                        {
-                            int cnt = await _context.SaveChangesAsync();
-                        }
-                        parentid = parent.Id;
-
-                    }
-                    var workItem = GetOrCreateWorkItem(itemRecord);
-                    workItem.ParentId = parentid;
+                    var workItem = _workItemRepository.GetOrCreateWorkItem(itemRecord);
                     var history = itemRecord.History;
 
                     if (workItem.Id != 0)
                     {
-                        history = itemRecord.History.Where(x => x.RevisionDateTime > workItem.LastUpdateTime);
+                        history = itemRecord.History;
                         workItem.LastUpdateTime = itemRecord.LastUpdateTime;
                     }
-
-                    history.Select(hi => new HistoryDetail
+                    var hist = history.Where(x=>x.AssignedUser!=null).Select(hi => new HistoryDetail
                     {
                         WorkItem = workItem,
                         WorkItemId = workItem.Id,
-                        RevisionById = GetOrCreateUser(hi.RevisionBy) is not null ? GetOrCreateUser(hi.RevisionBy).Id:null,
-                        RevisionBy = GetOrCreateUser(hi.RevisionBy),
-                        AssignedUser = GetOrCreateUser(hi.AssignedUser),
-                        AssignedUserId = GetOrCreateUser(hi.AssignedUser) is not null ? GetOrCreateUser(hi.AssignedUser).Id:null,
+                        UserId = _userRepository.GetOrCreateUser(hi.AssignedUser).Id,
                         RevisionDateTime = hi.RevisionDateTime,
-                        AssignedToNewValueId = GetOrCreateUser(hi.AssignedToNewValue) is not null ? GetOrCreateUser(hi.AssignedToNewValue).Id : null,
-                        AssignedToOldValueId = GetOrCreateUser(hi.AssignedToOldValue) is not null ? GetOrCreateUser(hi.AssignedToOldValue).Id : null,
-                        AssignedToNewValue = GetOrCreateUser(hi.AssignedToNewValue),
-                        AssignedToOldValue = GetOrCreateUser(hi.AssignedToOldValue),
                         RemainingWorkNewValue = hi.RemainingWorkNewValue,
                         RemainingWorkOldValue = hi.RemainingWorkOldValue
-                    }).ForEach(workItem.History.Add);
-                    var awaitIt = await _context.SaveChangesAsync();
+                    });
+                    _workItemRepository.AddHistory(hist);
                 }
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
-            }
-
-            User GetOrCreateUser(UserRecord userRecord)
-            {
-                if (userRecord is not null)
-                    return _context.Users.Local.FirstOrDefault(x => x.Name == userRecord.Name) ??
-                     _context.Users.FirstOrDefault(x => x.Name == userRecord.Name) ??
-                     _context.Users.Add(new User(userRecord.Id, userRecord.Name)).Entity;
-                else
-                    return null;
-            }
-
-            WorkItem GetOrCreateWorkItem(WorkItemRecord workItemRecord)
-            {
-                return _context.WorkItems
-                    .FirstOrDefault(x => x.ExternalId == workItemRecord.Id) ?? _context.WorkItems.Add(new WorkItem
-                    {
-                        ExternalId = workItemRecord.Id,
-                        Status = workItemRecord.Status,
-                        Title = workItemRecord.Title,
-                        Type = workItemRecord.Type,
-                        CreatedDate = workItemRecord.CreatedDate,
-                        LastUpdateTime = workItemRecord.LastUpdateTime,
-                        ClosedDate = workItemRecord.ClosedDate,
-                        History = new List<HistoryDetail>()
-                    }).Entity;
             }
 
         }

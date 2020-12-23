@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogTaskViewComponent } from '../dialog-task-view/dialog-task-view';
 import { DataService } from '../services/data.service';
 
 @Component({
@@ -8,9 +10,17 @@ import { DataService } from '../services/data.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent {
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, public dialog: MatDialog) {}
   dayz = getDaysInMonth(11, 2020);
-  userWorks$ = this.dataService.getBuiltUserWorks();
+  userWorks$ = this.dataService.getCreatedReport();
+  openDialog(id:number, title: string) {
+    this.dialog.open(DialogTaskViewComponent, {
+      data: {
+        Id : id,
+        Title: title
+      }
+    });
+  }
 }
 
 function getDaysInMonth(month, year) {

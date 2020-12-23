@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\shpar\\source\\repos\\Invoices\\Invoices.Tests\\Invoices.Tests.csproj": {}
+    "C:\\D\\KPI\\3LABAPROGA\\TeamReports\\Invoices.Tests\\Invoices.Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\shpar\\source\\repos\\Invoices\\Invoices.Tests\\Invoices.Tests.csproj": {
+    "C:\\D\\KPI\\3LABAPROGA\\TeamReports\\Invoices.Tests\\Invoices.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\shpar\\source\\repos\\Invoices\\Invoices.Tests\\Invoices.Tests.csproj",
+        "projectUniqueName": "C:\\D\\KPI\\3LABAPROGA\\TeamReports\\Invoices.Tests\\Invoices.Tests.csproj",
         "projectName": "Invoices.Tests",
-        "projectPath": "C:\\Users\\shpar\\source\\repos\\Invoices\\Invoices.Tests\\Invoices.Tests.csproj",
+        "projectPath": "C:\\D\\KPI\\3LABAPROGA\\TeamReports\\Invoices.Tests\\Invoices.Tests.csproj",
         "packagesPath": "C:\\Users\\shpar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\shpar\\source\\repos\\Invoices\\Invoices.Tests\\obj\\",
+        "outputPath": "C:\\D\\KPI\\3LABAPROGA\\TeamReports\\Invoices.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\shpar\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,8 +28,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\shpar\\source\\repos\\Invoices\\Invoices\\Invoices.csproj": {
-                "projectPath": "C:\\Users\\shpar\\source\\repos\\Invoices\\Invoices\\Invoices.csproj"
+              "C:\\D\\KPI\\3LABAPROGA\\TeamReports\\Invoices\\Invoices.csproj": {
+                "projectPath": "C:\\D\\KPI\\3LABAPROGA\\TeamReports\\Invoices\\Invoices.csproj"
               }
             }
           }
@@ -91,14 +91,14 @@
         }
       }
     },
-    "C:\\Users\\shpar\\source\\repos\\Invoices\\Invoices\\Invoices.csproj": {
+    "C:\\D\\KPI\\3LABAPROGA\\TeamReports\\Invoices\\Invoices.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\shpar\\source\\repos\\Invoices\\Invoices\\Invoices.csproj",
+        "projectUniqueName": "C:\\D\\KPI\\3LABAPROGA\\TeamReports\\Invoices\\Invoices.csproj",
         "projectName": "Invoices",
-        "projectPath": "C:\\Users\\shpar\\source\\repos\\Invoices\\Invoices\\Invoices.csproj",
+        "projectPath": "C:\\D\\KPI\\3LABAPROGA\\TeamReports\\Invoices\\Invoices.csproj",
         "packagesPath": "C:\\Users\\shpar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\shpar\\source\\repos\\Invoices\\Invoices\\obj\\",
+        "outputPath": "C:\\D\\KPI\\3LABAPROGA\\TeamReports\\Invoices\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\shpar\\AppData\\Roaming\\NuGet\\NuGet.Config",

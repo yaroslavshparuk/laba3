@@ -1,9 +1,7 @@
-﻿using Invoices.EF;
-using Invoices.Services;
-using Invoices.TrackingPlugin;
+﻿using Invoices.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using System;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace Invoices.Controllers
@@ -12,18 +10,17 @@ namespace Invoices.Controllers
     [Route("[controller]")]
     public class LoadController : ControllerBase
     {
-        private readonly ILogger<LoadController> _logger;
         private readonly LoadService _loadService;
-        public LoadController(ILogger<LoadController> logger, LoadService loadService)
+        public LoadController(LoadService loadService)
         {
-            _logger = logger;
             _loadService = loadService;
         }
-           
-        [HttpGet]
-        public async Task GetAsync()
+
+        [HttpGet("{year}/{month}")]
+        public async Task GetAsync(int year, string month)
         {
-            await _loadService.LoadAsync();
+            var date = new DateTime(year, DateTime.ParseExact(month, "MMMM", CultureInfo.CurrentCulture).Month, 1);
+            await _loadService.LoadAsync(date);
         }
     }
 }

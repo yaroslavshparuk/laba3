@@ -1,4 +1,4 @@
-﻿using Invoices.Models;
+﻿using Invoices.Data.Entities.TicketAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -13,7 +13,6 @@ namespace Invoices.DAL.EntityConfigurations
         public void Configure(EntityTypeBuilder<WorkItem> builder)
         {
             builder.ToTable("WorkItems").HasKey(x => x.Id);
-            builder.HasMany(x => x.History).WithOne(x=>x.WorkItem);
             builder.Property(x => x.Status).IsRequired();
             builder.Property(x => x.Title).IsRequired();
             builder.Property(x => x.Type).IsRequired();

@@ -1,7 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { User } from '../models/user';
 @Injectable({
   providedIn: 'root'
 })
@@ -12,11 +10,11 @@ export class HttpService {
     this.baseUrl = baseUrl;
   }
 
-  buildUserWorks() {
-    return this.http.get(this.baseUrl + 'build');
+  createReports(selectedYear:number, selectedMonth: string) {
+    return this.http.get(this.baseUrl + 'report/' + selectedYear + '/' + selectedMonth);
   }
-  loadWorkItems(){
-    return this.http.get(this.baseUrl + 'load')
+  loadWorkItems(selectedYear:number, selectedMonth: string){
+    return this.http.get(this.baseUrl + 'load/' + selectedYear + '/' + selectedMonth)
   }
 }
 

@@ -1,4 +1,4 @@
-﻿using Invoices.Models;
+﻿using Invoices.Data.Entities.UserAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
